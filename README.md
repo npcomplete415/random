@@ -6,9 +6,11 @@ This creates an sub OR list given a set of attendings
   
   **You will need to login if you have not**
 
-- Step 2:Launch a debug window Command-Shift-I (mac) or Ctrl-Shift-I (windows)
+- Step 2: Launch a debug window Command-Shift-I (mac) or Ctrl-Shift-I (windows)
 
-- Step 3: Enter the following Code
+- Step 3: Launch the console (on the new popup window, there is a tab for console)
+
+- Step 4: Enter the following Code
 
   **Replace the names of the surgeon above (currently "FLORES R" and "ADAMS D")**
   ```javascript
