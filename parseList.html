@@ -7,16 +7,19 @@
       min-height: 300px;
     }
   </style>
-  <script>
-    var x = 0;
-    $('#compute').click(function(e) {
-      console.log('clicked');
-    });
-  </script>
 </head>
 <body>
   <div><textarea id="source"></textarea></div>
   <div><textarea id="output"></textarea></div>
   <div><button id="compute">Process</button></div>
+  <script>
+    var s = document.createElement("script");
+    s.type = "text/javascript";
+    s.src = "https://cdn.jsdelivr.net/gh/npcomplete415/random@master/processList.js";
+    s.onload = function(){
+      console.log('loaded');
+    };
+    $("head").append(s);
+  </script>
 </body>
 </html>
