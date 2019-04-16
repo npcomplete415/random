@@ -1,17 +1,20 @@
 console.log('script loaded');
 $('#compute').click(function(e) { 
+  
+  $('#output').empty();
   var lines = $('#source').val().split('\n');
 
+  var exastIgnore = ['or', 'electrolyte-a (plasmalyte) infusion', 'sodium chloride 0.9 % infusion', 'sodium chloride 0.9 % 1,000 ml infusion', 'followed by']
   var categories = {
-    ignore : ['naloxone', 'sodium chloride 0.9 % infusion'],
-    anticoagulation : ['heparin', 'warfarin', 'lovenox', 'aspirin', 'plavix'],
-    antibiotics : ['cefazolin', 'vancomycin', 'flagyl', 'zosyn', 'ceftriaxone'],
+    ignore : ['naloxone', 'magnesium sulfate 1g', 'potassium phosphate 15 mmol', 'dextrose 50 % injection', 'glucagon injection 1 mg',  'dextrose (glutose) oral gel 15 g', 'iohexol', 'folic acid', 'multivitamin', 'thiamine', 'cyanocobalamin', 'magnesium oxide'],
+    anticoagulation : ['heparin (porcine) injection', 'warfarin', 'lovenox', 'aspirin', 'plavix', 'apixaban'],
+    antibiotics : ['cefazolin', 'vancomycin', 'flagyl', 'zosyn', 'ceftriaxone', 'unasyn'],
     steroids : ['dexamethasone', 'prednisone'],
     diabetes : ['insulin'],
-    gtt: ['infusion'],
-    heart : ['metoprolol', 'lisinopril'],
-    pulm : ['albuterol'],
-    other : ['miralax', 'sennosides', 'percocet', 'acetaminophen', 'oxycodone', 'prazole']
+    gtt: ['clevidipine (cleviprex) 25 mg/50 ml infusion'],
+    heart : ['metoprolol', 'lisinopril', 'hydralazine', 'digoxin', 'labetalol'],
+    pulm : ['albuterol', 'tiotropium', 'fluticasone furoate'],
+    other : ['miralax', 'sennosides', 'percocet', 'acetaminophen', 'oxycodone', 'prazole', '(ocean)', 'ferrous gluconate']
   }
 
   var bold = ['anticoagulation', 'antibiotics', 'steroids', 'diabetes', 'gtt']
@@ -26,8 +29,32 @@ $('#compute').click(function(e) {
     'oxycodone' : 'oxy',
     'prazole' : 'ppi',
     'lovenox' : 'lov',
-    'chlorhexidine' : 'peri',
-    'dexamethasone' : 'dexa'
+    'chlorhexidine' : 'peridex',
+    'dexamethasone' : 'dexa',
+    'insulin':'iss',
+    'atorvastatin':'statin',
+    'percocet' : 'oxy',
+    'hydromorphone' : 'dil',
+    'ramelteon' : 'ramel',
+    'metoprolol' : 'meto',
+    'lisinopril' : 'ace',
+    'hydralazine' : 'hydral',
+    'digoxin' : 'dig',
+    'tamsulosin' : 'flo',
+    'lidocaine' : 'lido',
+    'heparin (porcine) injection' : 'sqh',
+    'aspirin' : 'asa',
+    'amlodipine' : 'amlo',
+    'hydrochlorothiazide' : 'hctz',
+    '(ocean)' : 'nss',
+    'metoclopramide' : 'reglan',
+    'prochlorperazine' : 'compazine',
+    'vancomycin' : 'vanco',
+    'prednisone' : 'pred',
+    'bisacodyl' : 'dulco',
+    'ferrous gluconate' : 'iron',
+    'benzocaine-menthol' : 'cepacol',
+    'fluticasone furoate' : 'ellipta'
   };
 
   var data = {
@@ -50,6 +77,9 @@ $('#compute').click(function(e) {
     var line = lines[i].toLowerCase();
     if (line.indexOf(']') > -1) {
       line = line.substring(line.indexOf(']') + 1).trim()
+    }
+    if (exastIgnore.indexOf(line) > -1) {
+      continue;
     }
     if (line) {
       var drug = null;
@@ -81,20 +111,24 @@ $('#compute').click(function(e) {
       if (!data.drugs[catkey]) {
         data.drugs[catkey] = [];
       }
-      data.drugs[catkey].push(drug);
+      if (data.drugs[catkey].indexOf(drug) === -1) {
+        data.drugs[catkey].push(drug);
+      }
     }
   }
 
+  var first = true;
   for (var i = 0; i < catKeys.length; i++) {
-    var head = ',';
-    if (i === 0) {
-      head = '';
-    }
+    var head = ', ';
     if (data.drugs[catKeys[i]]) {
+      if (first) {
+        head = '';
+        first = false;
+      }
       if (bold.indexOf(catKeys[i]) > -1) {
-        $('#output').append($('<strong>' + head + data.drugs[catKeys[i]].join(', ')+' </strong>'));
+        $('#output').append($('<strong>' + head + data.drugs[catKeys[i]].join(', ').trim()+'</strong>'));
       } else {
-        $('#output').append($('<span>' + head + data.drugs[catKeys[i]].join(', ')+' </span>'));
+        $('#output').append($('<span>' + head + data.drugs[catKeys[i]].join(', ').trim()+'</span>'));
       }
     }
   }
