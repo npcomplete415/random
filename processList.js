@@ -3,7 +3,7 @@ console.log('script loaded');
 function processMedications(lines, start) {
   var exastIgnore = ['or', 'electrolyte-a (plasmalyte) infusion', 'sodium chloride 0.9 % infusion', 'sodium chloride 0.9 % 1,000 ml infusion', 'followed by']
   var categories = {
-    ignore : ['naloxone', 'magnesium sulfate 1g', 'potassium phosphate 15 mmol', 'dextrose 50 % injection', 'glucagon injection 1 mg',  'dextrose (glutose) oral gel 15 g', 'iohexol', 'folic acid', 'multivitamin', 'thiamine', 'cyanocobalamin', 'magnesium oxide'],
+    ignore : ['naloxone', 'magnesium sulfate 1g', 'potassium phosphate 15 mmol', 'dextrose 50 % injection', 'glucagon injection 1 mg',  'dextrose (glutose) oral gel 15 g', 'iohexol', 'folic acid', 'multivitamin', 'thiamine', 'cyanocobalamin', 'magnesium oxide', 'no current facility-administered'],
     anticoagulation : ['heparin (porcine) injection', 'warfarin', 'lovenox', 'aspirin', 'plavix', 'apixaban'],
     antibiotics : ['cefazolin', 'vancomycin', 'flagyl', 'zosyn', 'ceftriaxone', 'unasyn'],
     steroids : ['dexamethasone', 'prednisone'],
