@@ -29,7 +29,7 @@ function processMedications(lines, start) {
     'sennosides' : 'senn',
 	  'ipratropium' : 'atrovent',
     'miralax' : 'mira',
-	  'sodium chloride 0.9 % nebulizer' : 'ns neb'
+	  'sodium chloride 0.9 % nebulizer' : 'ns neb',
     'oxycodone' : 'oxy',
     'prazole' : 'ppi',
     'lovenox' : 'lov',
