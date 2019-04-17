@@ -2,7 +2,7 @@ console.log('script loaded');
 
 function processMedications(lines, start) {
   var exastIgnore = ['or', 'electrolyte-a (plasmalyte) infusion', 'electrolyte-a (plasmalyte) bolus',
-		     'sodium chloride 0.9 % infusion', 'sodium chloride 0.9 % 1,000 ml infusion', 'followed by']
+		     'sodium chloride 0.9 % infusion', 'sodium chloride 0.9 % 1,000 ml infusion', 'followed by', 'and', 'tpn adult']
   var categories = {
     ignore : ['naloxone', 'magnesium sulfate 1g', 'potassium phosphate 15 mmol', 'dextrose 50 % injection', 
 	      'glucagon injection 1 mg',  'dextrose (glutose) oral gel 15 g', 'iohexol', 'folic acid', 'multivitamin', 
@@ -12,7 +12,7 @@ function processMedications(lines, start) {
     antibiotics : ['cefazolin', 'vancomycin', 'flagyl', 'zosyn', 'ceftriaxone', 'unasyn'],
     steroids : ['dexamethasone', 'prednisone'],
     diabetes : ['insulin'],
-    gtt: ['clevidipine (cleviprex) 25 mg/50 ml infusion'],
+    gtt: [/(levophed).*?infusion/i, /(bivalirudin).*?infusion/i, /(dilaudid).*?infusion/i, /(clevidipine).*?infusion/i],
     heart : ['metoprolol', 'lisinopril', 'hydralazine', 'digoxin', 'labetalol'],
     pulm : ['albuterol', 'tiotropium', 'fluticasone furoate', 'sodium chloride 0.9 % nebulizer', 'ipratropium'],
     other : ['miralax', 'sennosides', 'percocet', 'acetaminophen', 'oxycodone', 'prazole', '(ocean)', 'ferrous gluconate']
