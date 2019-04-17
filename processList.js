@@ -173,7 +173,7 @@ function processVitals(lines, start) {
 			} else {
 				temp = lines[i].match(/\[([^\s]*)/);
 				if (temp) {
-					data.temp = temp[1]
+					data.o2 = temp[1]
 				}
 			}
 		}
