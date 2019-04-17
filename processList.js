@@ -13,8 +13,8 @@ function processMedications(lines, start) {
     steroids : ['dexamethasone', 'prednisone'],
     diabetes : ['insulin'],
     gtt: [/(levophed).*?infusion/i, /(bivalirudin).*?infusion/i, /(dilaudid).*?infusion/i, /(clevidipine).*?infusion/i],
-    heart : ['metoprolol', 'lisinopril', 'hydralazine', 'digoxin', 'labetalol'],
-    pulm : ['albuterol', 'tiotropium', 'fluticasone furoate', 'sodium chloride 0.9 % nebulizer', 'ipratropium'],
+    heart : ['metoprolol', 'lisinopril', 'hydralazine', 'digoxin', 'labetalol', 'imdur','amlodipine'],
+    pulm : ['albuterol', 'tiotropium', 'fluticasone furoate', 'sodium chloride 0.9 % nebulizer', 'ipratropium', 'ellipta'],
     other : ['miralax', 'sennosides', 'percocet', 'acetaminophen', 'oxycodone', 'prazole', '(ocean)', 'ferrous gluconate']
   }
 
