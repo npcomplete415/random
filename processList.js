@@ -139,10 +139,10 @@ function processMedications(lines, start) {
 }
 
 function processVitals(lines, start) {
-	var data = {};
+  var data = {};
   var end = start;
-	for (var i = start; i < lines.length; i++) {
-		if (lines[i] === '[/Vitals]') {
+  for (var i = start; i < lines.length; i++) {
+    if (lines[i] === '[/Vitals]') {
       end = i;
       break;
     }
@@ -151,7 +151,15 @@ function processVitals(lines, start) {
 			data.bp = temp[1]+'/'+temp[2];
 		} else if (lines[i].startsWith('Temp:')) {
 			var temp = lines[i].match(/\[([^\s]*).*?-([^\s]*)/)
-			data.temp = temp[1]+'-'+temp[2];
+			if (temp) {
+				data.temp = temp[1]+'-'+temp[2];
+			} else {
+				temp = lines[i].match(/\[([^\s]*)/);
+				if (temp) {
+					data.temp = temp[1]
+				}
+			}
+			
 		} else if (lines[i].startsWith('Pulse:')) {
 			var temp = lines[i].match(/\[(.*?)\]/)
 			data.pulse = temp[1];
@@ -160,7 +168,14 @@ function processVitals(lines, start) {
 			data.resp = temp[1];
 		} else if (lines[i].startsWith('SpO2:')) {
 			var temp = lines[i].match(/\[(.*?)%-.*?(.*?)%\]/)
-			data.o2 = temp[1].trim()+'-'+temp[2].trim();
+			if (temp) {
+				data.o2 = temp[1].trim()+'-'+temp[2].trim();
+			} else {
+				temp = lines[i].match(/\[([^\s]*)/);
+				if (temp) {
+					data.temp = temp[1]
+				}
+			}
 		}
 	}
 
