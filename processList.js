@@ -7,15 +7,16 @@ function processMedications(lines, start) {
     ignore : ['naloxone', 'magnesium sulfate 1g', 'potassium phosphate 15 mmol', 'dextrose 50 % injection', 'sodium phosphate 15 mmol',
 	      'glucagon injection 1 mg',  'dextrose (glutose) oral gel 15 g', 'iohexol', 'folic acid', 'multivitamin', 
 	      'thiamine', 'cyanocobalamin', 'magnesium oxide', 'no current facility-administered',
-	     'no current outpatient prescriptions', 'flush', 'aluminum acetate', 'calcium gluconate 1g'],
+	     'no current outpatient prescriptions', 'flush', 'aluminum acetate', 'calcium gluconate 1g', 'influenza', 'cholecalciferol'],
     anticoagulation : ['heparin (porcine) injection', 'warfarin', 'lovenox', 'aspirin', 'plavix', 'apixaban'],
-    antibiotics : ['cefazolin', 'vancomycin', 'flagyl', 'zosyn', 'ceftriaxone', 'unasyn'],
+    antibiotics : ['cefazolin', 'vancomycin', 'flagyl', 'zosyn', 'ceftriaxone', 'unasyn', 'bactrim', 'voriconazole'],
     steroids : ['dexamethasone', 'prednisone'],
     diabetes : ['insulin'],
     gtt: [/(levophed).*?infusion/i, /(bivalirudin).*?infusion/i, /(dilaudid).*?infusion/i, /(clevidipine).*?infusion/i],
-    heart : ['metoprolol', 'lisinopril', 'hydralazine', 'digoxin', 'labetalol', 'imdur','amlodipine', 'atenolol'],
+    heart : ['metoprolol', 'lisinopril', 'hydralazine', 'digoxin', 'labetalol', 'imdur','amlodipine', 'atenolol', 
+	     'nifedipine', 'losartan', 'statin'],
     pulm : ['albuterol', 'tiotropium', 'fluticasone furoate', 'sodium chloride 0.9 % nebulizer', 'ipratropium', 'ellipta'],
-    other : ['miralax', 'sennosides', 'percocet', 'acetaminophen', 'oxycodone', 'prazole', '(ocean)', 'ferrous gluconate', 'artificial tears']
+    other : ['miralax', 'sennosides', 'percocet', 'acetaminophen', 'oxycodone', 'prazole', '(ocean)', 'ferrous', 'artificial tears']
   }
 
   var bold = ['anticoagulation', 'antibiotics', 'steroids', 'diabetes', 'gtt']
