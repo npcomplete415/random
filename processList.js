@@ -1,9 +1,6 @@
 console.log('script loaded');
-$('#compute').click(function(e) { 
-  
-  $('#output').empty();
-  var lines = $('#source').val().split('\n');
 
+function processMedications(lines, start) {
   var exastIgnore = ['or', 'electrolyte-a (plasmalyte) infusion', 'sodium chloride 0.9 % infusion', 'sodium chloride 0.9 % 1,000 ml infusion', 'followed by']
   var categories = {
     ignore : ['naloxone', 'magnesium sulfate 1g', 'potassium phosphate 15 mmol', 'dextrose 50 % injection', 'glucagon injection 1 mg',  'dextrose (glutose) oral gel 15 g', 'iohexol', 'folic acid', 'multivitamin', 'thiamine', 'cyanocobalamin', 'magnesium oxide'],
@@ -72,8 +69,12 @@ $('#compute').click(function(e) {
       return name.split(' ')[0];
     }
   };
-
-  for (var i = 0; i < lines.length; i++) {
+  var end = start;
+  for (var i = start; i < lines.length; i++) {
+    if (lines[i] === '[/Medications]') {
+      end = i;
+      break;
+    }
     var line = lines[i].toLowerCase();
     if (line.indexOf(']') > -1) {
       line = line.substring(line.indexOf(']') + 1).trim()
@@ -118,6 +119,7 @@ $('#compute').click(function(e) {
   }
 
   var first = true;
+  var output = $('<div></div>');
   for (var i = 0; i < catKeys.length; i++) {
     var head = ', ';
     if (data.drugs[catKeys[i]]) {
@@ -126,11 +128,143 @@ $('#compute').click(function(e) {
         first = false;
       }
       if (bold.indexOf(catKeys[i]) > -1) {
-        $('#output').append($('<strong>' + head + data.drugs[catKeys[i]].join(', ').trim()+'</strong>'));
+        output.append($('<strong>' + head + data.drugs[catKeys[i]].join(', ').trim()+'</strong>'));
       } else {
-        $('#output').append($('<span>' + head + data.drugs[catKeys[i]].join(', ').trim()+'</span>'));
+        output.append($('<span>' + head + data.drugs[catKeys[i]].join(', ').trim()+'</span>'));
       }
     }
   }
+  $('#output').append(output);
+  return end;
+}
 
+function processVitals(lines, start) {
+	var data = {};
+  var end = start;
+	for (var i = start; i < lines.length; i++) {
+		if (lines[i] === '[/Vitals]') {
+      end = i;
+      break;
+    }
+		if (lines[i].startsWith('BP:')) {
+			var temp = lines[i].match(/\((.*?)\)\/\((.*?)\)/)
+			data.bp = temp[1]+'/'+temp[2];
+		} else if (lines[i].startsWith('Temp:')) {
+			var temp = lines[i].match(/\[([^\s]*).*?-([^\s]*)/)
+			data.temp = temp[1]+'-'+temp[2];
+		} else if (lines[i].startsWith('Pulse:')) {
+			var temp = lines[i].match(/\[(.*?)\]/)
+			data.pulse = temp[1];
+		} else if (lines[i].startsWith('Resp:')) {
+			var temp = lines[i].match(/\[(.*?)\]/)
+			data.resp = temp[1];
+		} else if (lines[i].startsWith('SpO2:')) {
+			var temp = lines[i].match(/\[(.*?)%-.*?(.*?)%\]/)
+			data.o2 = temp[1].trim()+'-'+temp[2].trim();
+		}
+	}
+
+	$('#output').append($('<div>'+data.temp+'&nbsp;&nbsp;'+
+	data.resp+'&nbsp;&nbsp;'+
+	data.pulse+'&nbsp;&nbsp;'+
+	data.bp+'&nbsp;&nbsp;'+
+	data.o2+'&nbsp;&nbsp;'+'</div>'));
+  return end;
+}
+
+function processLabs(lines, start) {
+	var data = {
+		bmp : {},
+		cbc : {},
+		coag : {}
+	};
+  var end = start;
+	for (var i = start; i < lines.length;i++) {
+    if (lines[i] === '[/Labs]') {
+      end = i;
+      break;
+    }
+		var splitted = lines[i].split(/\s+/);
+		if (splitted.length <= 1) {
+			continue;
+		}
+
+		switch (splitted[0]) {
+			case 'GLUCOSE':
+				console.log(splitted[1]);
+				data.bmp.glucose = splitted[1].replace(/\*$/, '');
+				break;
+			case 'NA':
+				data.bmp.na = splitted[1].replace(/\*$/, '');
+				break;
+			case 'K':
+				data.bmp.k = splitted[1].replace(/\*$/, '');
+				break;
+			case 'BUN':
+				data.bmp.bun = splitted[1].replace(/\*$/, '');
+				break;
+			case 'CREAT':
+				data.bmp.creat = splitted[1].replace(/\*$/, '');
+				break;
+			case 'WBC':
+				data.cbc.wbc = splitted[1].replace(/\*$/, '');
+				break;
+			case 'HGB':
+				data.cbc.hgb = splitted[1].replace(/\*$/, '');
+				break;
+			case 'HEMATOCRIT':
+				data.cbc.hct = splitted[1].replace(/\*$/, '');
+				break;
+			case 'PLTS':
+				data.cbc.plt = splitted[1].replace(/\*$/, '');
+				break;
+			case 'INR':
+				data.coag.inr = splitted[1].replace(/\*$/, '');
+				break;
+			case 'PTT':
+				data.coag.ptt = splitted[1].replace(/\*$/, '');
+				break;
+		}
+	}
+  
+  var print = function(input) {
+    return input ? input : '-';
+  }
+
+	var date = `${(new Date()).getMonth()+1}/${(new Date()).getDate()}`
+	var outputs = [`${date}: `, `${date}: `];
+	if (Object.keys(data.bmp).length > 0) {
+		outputs[1] += `${print(data.bmp.na)}|${print(data.bmp.k)}|${print(data.bmp.bun)}|${print(data.bmp.creat)}<${print(data.bmp.glucose)}`;
+	}
+	if (Object.keys(data.cbc).length > 0) {
+		outputs[0] += `${print(data.cbc.wbc)}|${print(data.cbc.hgb)}|${print(data.cbc.hct)}|${print(data.cbc.plt)}&nbsp;&nbsp;`;
+	}
+	if (Object.keys(data.coag).length > 0) {
+		outputs[0] += `${print(data.coag.inr)}|${print(data.coag.ptt)}`;
+	}
+
+	$('#output').append($('<div>'+outputs.join('<br/>')+'</div>'));
+  return end;
+}
+
+
+$('#compute').click(function(e) { 
+  
+  $('#output').empty();
+  var lines = $('#source').val().split('\n');
+  var state = 0;
+  // 1 - vitals
+  // 2 - medications
+  // 3 - labs
+  for (var i = 0; i < lines.length; i++) {
+    if (lines[i] === '[Vitals]') {
+      i = processVitals(lines, i);
+    }
+    if (lines[i] === '[Medications]') {
+      i = processMedications(lines, i);
+    }
+    if (lines[i] === '[Labs]') {
+      i = processLabs(lines, i);
+    }
+  }
 })
