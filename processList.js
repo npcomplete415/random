@@ -1,16 +1,20 @@
 console.log('script loaded');
 
 function processMedications(lines, start) {
-  var exastIgnore = ['or', 'electrolyte-a (plasmalyte) infusion', 'sodium chloride 0.9 % infusion', 'sodium chloride 0.9 % 1,000 ml infusion', 'followed by']
+  var exastIgnore = ['or', 'electrolyte-a (plasmalyte) infusion', 'electrolyte-a (plasmalyte) bolus',
+		     'sodium chloride 0.9 % infusion', 'sodium chloride 0.9 % 1,000 ml infusion', 'followed by']
   var categories = {
-    ignore : ['naloxone', 'magnesium sulfate 1g', 'potassium phosphate 15 mmol', 'dextrose 50 % injection', 'glucagon injection 1 mg',  'dextrose (glutose) oral gel 15 g', 'iohexol', 'folic acid', 'multivitamin', 'thiamine', 'cyanocobalamin', 'magnesium oxide', 'no current facility-administered'],
+    ignore : ['naloxone', 'magnesium sulfate 1g', 'potassium phosphate 15 mmol', 'dextrose 50 % injection', 
+	      'glucagon injection 1 mg',  'dextrose (glutose) oral gel 15 g', 'iohexol', 'folic acid', 'multivitamin', 
+	      'thiamine', 'cyanocobalamin', 'magnesium oxide', 'no current facility-administered',
+	     'no current outpatient prescriptions', 'flush', 'aluminum acetate'],
     anticoagulation : ['heparin (porcine) injection', 'warfarin', 'lovenox', 'aspirin', 'plavix', 'apixaban'],
     antibiotics : ['cefazolin', 'vancomycin', 'flagyl', 'zosyn', 'ceftriaxone', 'unasyn'],
     steroids : ['dexamethasone', 'prednisone'],
     diabetes : ['insulin'],
     gtt: ['clevidipine (cleviprex) 25 mg/50 ml infusion'],
     heart : ['metoprolol', 'lisinopril', 'hydralazine', 'digoxin', 'labetalol'],
-    pulm : ['albuterol', 'tiotropium', 'fluticasone furoate'],
+    pulm : ['albuterol', 'tiotropium', 'fluticasone furoate', 'sodium chloride 0.9 % nebulizer', 'ipratropium'],
     other : ['miralax', 'sennosides', 'percocet', 'acetaminophen', 'oxycodone', 'prazole', '(ocean)', 'ferrous gluconate']
   }
 
@@ -21,8 +25,11 @@ function processMedications(lines, start) {
     'ondansetron' : 'zof',
     'gabapentin' : 'gaba',
     'prazole' : 'ppi',
+	  'quetiapine' : 'seroquel',
     'sennosides' : 'senn',
+	  'ipratropium' : 'atrovent',
     'miralax' : 'mira',
+	  'sodium chloride 0.9 % nebulizer' : 'ns neb'
     'oxycodone' : 'oxy',
     'prazole' : 'ppi',
     'lovenox' : 'lov',
@@ -89,7 +96,15 @@ function processMedications(lines, start) {
       for (var j = 0; j < catKeys.length; j++) {
         var currentKey = catKeys[j];
         for(var k = 0; k < categories[currentKey].length; k++) {
-          if (line.indexOf(categories[currentKey][k]) > -1) {
+	  if (categories[currentKey][k].compile) {
+            var match = line.match(categories[currentKey][k]);
+            if (match) {
+		    drug = match[1];
+		    catkey = currentKey;
+		    found = true;
+		    break;
+	    }
+	  } else if (line.indexOf(categories[currentKey][k]) > -1) {
             drug = categories[currentKey][k];
             catkey = currentKey;
             found = true;
