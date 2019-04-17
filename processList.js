@@ -13,9 +13,9 @@ function processMedications(lines, start) {
     steroids : ['dexamethasone', 'prednisone'],
     diabetes : ['insulin'],
     gtt: [/(levophed).*?infusion/i, /(bivalirudin).*?infusion/i, /(dilaudid).*?infusion/i, /(clevidipine).*?infusion/i],
-    heart : ['metoprolol', 'lisinopril', 'hydralazine', 'digoxin', 'labetalol', 'imdur','amlodipine'],
+    heart : ['metoprolol', 'lisinopril', 'hydralazine', 'digoxin', 'labetalol', 'imdur','amlodipine', 'atenolol'],
     pulm : ['albuterol', 'tiotropium', 'fluticasone furoate', 'sodium chloride 0.9 % nebulizer', 'ipratropium', 'ellipta'],
-    other : ['miralax', 'sennosides', 'percocet', 'acetaminophen', 'oxycodone', 'prazole', '(ocean)', 'ferrous gluconate']
+    other : ['miralax', 'sennosides', 'percocet', 'acetaminophen', 'oxycodone', 'prazole', '(ocean)', 'ferrous gluconate', 'artificial tears']
   }
 
   var bold = ['anticoagulation', 'antibiotics', 'steroids', 'diabetes', 'gtt']
@@ -31,6 +31,7 @@ function processMedications(lines, start) {
     'miralax' : 'mira',
 	  'sodium chloride 0.9 % nebulizer' : 'ns neb',
     'oxycodone' : 'oxy',
+	  'artificial tears' :'at',
     'prazole' : 'ppi',
     'lovenox' : 'lov',
     'chlorhexidine' : 'peridex',
