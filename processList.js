@@ -144,7 +144,7 @@ function processMedications(lines, start) {
       }
       var tail = '';
 	    if (catKeys[i] === 'gtt') {
-		    tail = 'gtt';
+		    tail = ' gtt';
 	    }
       if (bold.indexOf(catKeys[i]) > -1) {
         output.append($('<strong>' + head + data.drugs[catKeys[i]].join('/').trim()+tail+'</strong>'));
