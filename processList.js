@@ -4,7 +4,7 @@ function processMedications(lines, start) {
   var exastIgnore = ['or', 'electrolyte-a (plasmalyte) infusion', 'electrolyte-a (plasmalyte) bolus',
 		     'sodium chloride 0.9 % infusion', 'sodium chloride 0.9 % 1,000 ml infusion', 'followed by', 'and', 'tpn adult']
   var categories = {
-    ignore : ['naloxone', 'magnesium sulfate 1g', 'potassium phosphate 15 mmol', 'dextrose 50 % injection', 
+    ignore : ['naloxone', 'magnesium sulfate 1g', 'potassium phosphate 15 mmol', 'dextrose 50 % injection', 'sodium phosphate 15 mmol',
 	      'glucagon injection 1 mg',  'dextrose (glutose) oral gel 15 g', 'iohexol', 'folic acid', 'multivitamin', 
 	      'thiamine', 'cyanocobalamin', 'magnesium oxide', 'no current facility-administered',
 	     'no current outpatient prescriptions', 'flush', 'aluminum acetate'],
@@ -142,10 +142,14 @@ function processMedications(lines, start) {
         head = '';
         first = false;
       }
+      var tail = '';
+	    if (catKeys[i] === 'gtt') {
+		    tail = 'gtt';
+	    }
       if (bold.indexOf(catKeys[i]) > -1) {
-        output.append($('<strong>' + head + data.drugs[catKeys[i]].join(', ').trim()+'</strong>'));
+        output.append($('<strong>' + head + data.drugs[catKeys[i]].join('/').trim()+tail+'</strong>'));
       } else {
-        output.append($('<span>' + head + data.drugs[catKeys[i]].join(', ').trim()+'</span>'));
+        output.append($('<span>' + head + data.drugs[catKeys[i]].join('/').trim()+tail+'</span>'));
       }
     }
   }
