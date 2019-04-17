@@ -7,7 +7,7 @@ function processMedications(lines, start) {
     ignore : ['naloxone', 'magnesium sulfate 1g', 'potassium phosphate 15 mmol', 'dextrose 50 % injection', 'sodium phosphate 15 mmol',
 	      'glucagon injection 1 mg',  'dextrose (glutose) oral gel 15 g', 'iohexol', 'folic acid', 'multivitamin', 
 	      'thiamine', 'cyanocobalamin', 'magnesium oxide', 'no current facility-administered',
-	     'no current outpatient prescriptions', 'flush', 'aluminum acetate'],
+	     'no current outpatient prescriptions', 'flush', 'aluminum acetate', 'calcium gluconate 1g'],
     anticoagulation : ['heparin (porcine) injection', 'warfarin', 'lovenox', 'aspirin', 'plavix', 'apixaban'],
     antibiotics : ['cefazolin', 'vancomycin', 'flagyl', 'zosyn', 'ceftriaxone', 'unasyn'],
     steroids : ['dexamethasone', 'prednisone'],
