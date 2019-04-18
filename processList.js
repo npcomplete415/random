@@ -221,50 +221,74 @@ function processLabs(lines, start) {
     coag: {}
   };
   var end = start;
+  var date = false;
+  var currentDate = null;
+  var dates = [];
   for (var i = start; i < lines.length; i++) {
     if (lines[i] === '[/Labs]') {
       end = i;
       break;
     }
-    var splitted = lines[i].split(/\s+/);
+    var splitted = lines[i].split(/\s\s+/);
+    if (splitted[0] === 'Labs (Last 24 hrs)') {
+      date = true;
+      dates = ['', splitted[1]];
+    } else if (date === true && splitted[0][0] === ' ') {
+      dates[dates.length - 1] += splitted[0];
+      if (splitted.length > 1) {
+        dates.push(splitted[1]);
+      }
+    } else {
+      date = false;
+    }
     if (splitted.length <= 1) {
       continue;
     }
-
+    var lastIndex = splitted.length - 1;
     switch (splitted[0]) {
       case 'GLUCOSE':
-        console.log(splitted[1]);
-        data.bmp.glucose = splitted[1].replace(/\*$/, '');
+        data.bmp.date = dates[lastIndex];
+        data.bmp.glucose = splitted[lastIndex].replace(/\*$/, '');
         break;
       case 'NA':
-        data.bmp.na = splitted[1].replace(/\*$/, '');
+        data.bmp.date = dates[lastIndex];
+        data.bmp.na = splitted[lastIndex].replace(/\*$/, '');
         break;
       case 'K':
-        data.bmp.k = splitted[1].replace(/\*$/, '');
+        data.bmp.date = dates[lastIndex];
+        data.bmp.k = splitted[lastIndex].replace(/\*$/, '');
         break;
       case 'BUN':
-        data.bmp.bun = splitted[1].replace(/\*$/, '');
+        data.bmp.date = dates[lastIndex];
+        data.bmp.bun = splitted[lastIndex].replace(/\*$/, '');
         break;
       case 'CREAT':
-        data.bmp.creat = splitted[1].replace(/\*$/, '');
+        data.bmp.date = dates[lastIndex];
+        data.bmp.creat = splitted[lastIndex].replace(/\*$/, '');
         break;
       case 'WBC':
-        data.cbc.wbc = splitted[1].replace(/\*$/, '');
+        data.cbc.date = dates[lastIndex];
+        data.cbc.wbc = splitted[lastIndex].replace(/\*$/, '');
         break;
       case 'HGB':
-        data.cbc.hgb = splitted[1].replace(/\*$/, '');
+        data.cbc.date = dates[lastIndex];
+        data.cbc.hgb = splitted[lastIndex].replace(/\*$/, '');
         break;
       case 'HEMATOCRIT':
-        data.cbc.hct = splitted[1].replace(/\*$/, '');
+        data.cbc.date = dates[lastIndex];
+        data.cbc.hct = splitted[lastIndex].replace(/\*$/, '');
         break;
       case 'PLTS':
-        data.cbc.plt = splitted[1].replace(/\*$/, '');
+        data.cbc.date = dates[lastIndex];
+        data.cbc.plt = splitted[lastIndex].replace(/\*$/, '');
         break;
       case 'INR':
-        data.coag.inr = splitted[1].replace(/\*$/, '');
+        data.coag.date = dates[lastIndex];
+        data.coag.inr = splitted[lastIndex].replace(/\*$/, '');
         break;
       case 'PTT':
-        data.coag.ptt = splitted[1].replace(/\*$/, '');
+        data.coag.date = dates[lastIndex];
+        data.coag.ptt = splitted[lastIndex].replace(/\*$/, '');
         break;
     }
   }
@@ -273,16 +297,15 @@ function processLabs(lines, start) {
     return input ? input : '-';
   }
 
-  var date = `${(new Date()).getMonth()+1}/${(new Date()).getDate()}`
-  var outputs = [`${date}: `, `${date}: `];
+  var outputs = [``, ``];
   if (Object.keys(data.bmp).length > 0) {
-    outputs[1] += `${print(data.bmp.na)}|${print(data.bmp.k)}|${print(data.bmp.bun)}|${print(data.bmp.creat)}<${print(data.bmp.glucose)}`;
+    outputs[1] += `${print(data.bmp.date)}:  ${print(data.bmp.na)}/${print(data.bmp.k)}/${print(data.bmp.bun)}/${print(data.bmp.creat)}<${print(data.bmp.glucose)}`;
   }
   if (Object.keys(data.cbc).length > 0) {
-    outputs[0] += `${print(data.cbc.wbc)}|${print(data.cbc.hgb)}|${print(data.cbc.hct)}|${print(data.cbc.plt)}&nbsp;&nbsp;`;
+    outputs[0] += `${print(data.cbc.date)}:  ${print(data.cbc.wbc)}/${print(data.cbc.hgb)}/${print(data.cbc.hct)}/${print(data.cbc.plt)}&nbsp;&nbsp;`;
   }
   if (Object.keys(data.coag).length > 0) {
-    outputs[0] += `${print(data.coag.inr)}|${print(data.coag.ptt)}`;
+    outputs[0] += `${print(data.coag.date)}:  ${print(data.coag.inr)}/${print(data.coag.ptt)}`;
   }
 
   $('#output').append($('<div>' + outputs.join('<br/>') + '</div>'));
