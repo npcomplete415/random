@@ -17,7 +17,7 @@
   </iframe>
   <script>
     var date = new Date();
-    date = date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear();
+    date = (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear();
     $('#body').attr('src', 'https://intranet2.mountsinai.org/ms_schedule/Schedule_By_Room_Main.jsp?currentmenucode=menu4&currentsubcode=sub2&ReqDate='+date);
     $('#compute').click(function(e) {
       var iframe = document.getElementById("body");
