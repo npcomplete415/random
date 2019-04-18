@@ -1,0 +1,21 @@
+<html>
+<head>
+  <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+  <script src="./createList.js"></script>
+</head>
+<body>
+  <div><input id="date" placeholder="enter date"/></div>
+  <div><button id="compute">Process</button></div>
+  <frame id="body" />
+  <script>
+    var date = new Date();
+    date = date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear();
+    $('#body').attr('src', 'https://intranet2.mountsinai.org/ms_schedule/Schedule_By_Room_Main.jsp?currentmenucode=menu4&currentsubcode=sub2&ReqDate='+date);
+    $('#compute').click(function(e) {
+      var iframe = document.getElementById("body");
+      var iframe_contents = iframe.contentDocument.body.innerHTML;
+      createList(iframe_contents, []);
+    });
+  </script>
+</body>
+</html>
