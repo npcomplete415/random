@@ -13,31 +13,34 @@
       </li>
       <li>
         <div><strong>ctrl-shift-i</strong> then click on the console tab</strong></div>
-        <div><textarea id='surgeons'>
-        ROTHSCH M
-        YAO M
-        LAWSON W
-        WOO P
-        MILES B
-        ILORETA A
-        LIN F
-        CHANDRA S
-        SHOHET M
-        GENDEN E
-        TENG M
-        KIRKE D
-        COSETTI M
-        COLLEY P
-        ROSENBE J
-        GOVINDA S
-        DEL SIGNORE A
-        TWEEL B
-        LONDINO A
-        HACKETT A
-        WANNA G
-        SMOUHA E
-        COUREY M  
+        <div><textarea id='surgeons' width='400', height='200'>
+ROTHSCH M
+YAO M
+LAWSON W
+WOO P
+MILES B
+ILORETA A
+LIN F
+CHANDRA S
+SHOHET M
+GENDEN E
+TENG M
+KIRKE D
+COSETTI M
+COLLEY P
+ROSENBE J
+GOVINDA S
+DEL SIGNORE A
+TWEEL B
+LONDINO A
+HACKETT A
+WANNA G
+SMOUHA E
+COUREY M  
         </textarea></div>
+        <div>
+          <button id='process'>Process</button>
+        </div>
       </li>
       <li><div>(paste below in console) then <strong>press Enter</strong></div><div>
         var s = document.createElement("script");
@@ -61,13 +64,14 @@
     $('#today').attr('href', ' https://intranet2.mountsinai.org/ms_schedule/Schedule_By_Room_Main.jsp?currentmenucode=menu4&currentsubcode=sub2&ReqDate='+today);
     $('#tomorrow').attr('href', ' https://intranet2.mountsinai.org/ms_schedule/Schedule_By_Room_Main.jsp?currentmenucode=menu4&currentsubcode=sub2&ReqDate='+tomorrow);
     
-    var list = $('#suregeons').val().toUpperCase().split('\n');
-    var returned = [];
-    for (var i = 0; i < list.length; i++) {
-      returned.push(list[i].trim());
-    }
-    
-    $('#list').text('["'+returned.join('","')+'"]');
+    $('#process').click(function(e) {
+      var list = $('#suregeons').val().toUpperCase().split('\n');
+      var returned = [];
+      for (var i = 0; i < list.length; i++) {
+        returned.push(list[i].trim());
+      }
+      $('#list').html('"'+returned.join('","')+'"');
+    });
   </script>
 </body>
 </html>
