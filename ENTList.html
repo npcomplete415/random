@@ -13,7 +13,7 @@
       </li>
       <li>
         <div><strong>ctrl-shift-i</strong> then click on the console tab</strong></div>
-        <div><textarea id='surgeons' width='400', height='200'>
+        <div><textarea id='surgeons' width='400' height='200'>
 ROTHSCH M
 YAO M
 LAWSON W
@@ -65,7 +65,7 @@ COUREY M
     $('#tomorrow').attr('href', ' https://intranet2.mountsinai.org/ms_schedule/Schedule_By_Room_Main.jsp?currentmenucode=menu4&currentsubcode=sub2&ReqDate='+tomorrow);
     
     $('#process').click(function(e) {
-      var list = $('#suregeons').val().toUpperCase().split('\n');
+      var list = $('#surgeons').val().toUpperCase().split('\n');
       var returned = [];
       for (var i = 0; i < list.length; i++) {
         returned.push(list[i].trim());
