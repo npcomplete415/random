@@ -1,29 +1,24 @@
 <html>
 <head>
-  <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
-  <script src="./createList.js"></script>
-  <style>
-    #body {
-      width: 100%;
-      height: 100%;
-    }
-  </style>
+  
 </head>
 <body>
-  <div><input id="date" placeholder="enter date"/></div>
-  <div><button id="compute">Process</button></div>
-  <iframe id="body" src="">
-    Sorry your browser does not support inline frames.
-  </iframe>
-  <script>
-    var date = new Date();
-    date = (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear();
-    $('#body').attr('src', 'https://intranet2.mountsinai.org/ms_schedule/Schedule_By_Room_Main.jsp?currentmenucode=menu4&currentsubcode=sub2&ReqDate='+date);
-    $('#compute').click(function(e) {
-      var iframe = document.getElementById("body");
-      var iframe_contents = iframe.contentDocument.body.innerHTML;
-      createList(iframe_contents, []);
-    });
-  </script>
+  <div>
+    <ol>
+      <li><div>Navigate to <strong>(besure to change the date)</strong>: https://intranet2.mountsinai.org/ms_schedule/Schedule_By_Room_Main.jsp?currentmenucode=menu4&#x26;currentsubcode=sub2&#x26;ReqDate=<strong>04/15/2019</strong></div></li>
+      <li><div><strong>ctrl-shift-i</strong> then click on the console tab</strong></div></li>
+      <li><div>(paste below in console) then <strong>press Enter</strong></div><div>
+        var s = document.createElement("script");
+        s.type = "text/javascript";
+        s.src = "https://cdn.jsdelivr.net/gh/npcomplete415/random@latest/createList.js";
+        s.onload = function(){
+          createList(["ROTHSCH M", "YAO M", "LAWSON W", "WOO P", "MILES B", "ILORETA A", "LIN F", 'CHANDRA S', 
+          "SHOHET M", "GENDEN E", "TENG M", "KIRKE D", "COSETTI M", "COLLEY P", "ROSENBE J",
+          "GOVINDA S", "DEL SIGNORE A", "TWEEL B", "LONDINO A", "HACKETT A", "WANNA G", "SMOUHA E", "COUREY M"])
+        };
+        $("head").append(s);
+      </div></li>
+    </ol>
+  </div>
 </body>
 </html>
