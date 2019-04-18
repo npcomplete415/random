@@ -1,5 +1,5 @@
-var createList = function (contentDocument, names) {
-  var list = contentDocument.getElementsByTagName("tr");
+var createList = function (names) {
+  var list = document.getElementsByTagName("tr");
 
   var findOR = function (list, index) {
     for (var i = index; i >= 0; i--) {
@@ -37,10 +37,10 @@ var createList = function (contentDocument, names) {
 
   var filtered = filter(list, names)
 
-  var new_tbody = contentDocument.createElement('tbody');
+  var new_tbody = document.createElement('tbody');
   for (var i = 0; i < filtered.length; i++) {
     new_tbody.append(filtered[i]);
   }
 
-  contentDocument.getElementsByTagName('table')[0].innerHTML = new_tbody.outerHTML
+  document.getElementsByTagName('table')[0].innerHTML = new_tbody.outerHTML
 }
