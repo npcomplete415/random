@@ -1,11 +1,20 @@
 <html>
 <head>
   
+  <script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+ 
+  
+  https://intranet2.mountsinai.org/ms_schedule/Schedule_By_Room_Main.jsp?currentmenucode=menu4&#x26;currentsubcode=sub2&#x26;ReqDate=
 </head>
 <body>
   <div>
     <ol>
-      <li><div>Navigate to <strong>(besure to change the date)</strong>: https://intranet2.mountsinai.org/ms_schedule/Schedule_By_Room_Main.jsp?currentmenucode=menu4&#x26;currentsubcode=sub2&#x26;ReqDate=<strong>04/15/2019</strong></div></li>
+      <li>
+        <div>Navigate to <strong>(besure to change the date)</strong></div>
+        <div>Any Date: https://intranet2.mountsinai.org/ms_schedule/Schedule_By_Room_Main.jsp?currentmenucode=menu4&#x26;currentsubcode=sub2&#x26;ReqDate=<strong>04/15/2019</strong></div>
+        <div><a href="" id="today">Today</a></div>
+        <div><a href="" id="tomorrow">Tomorrow</a></div>
+      </li>
       <li><div><strong>ctrl-shift-i</strong> then click on the console tab</strong></div></li>
       <li><div>(paste below in console) then <strong>press Enter</strong></div><div>
         var s = document.createElement("script");
@@ -20,5 +29,17 @@
       </div></li>
     </ol>
   </div>
+  <script>
+    var today = new Date();
+    var tomorrow = new Date();
+    tomorrow.setDate(today.getDate()+1);
+    
+    today = (today.getMonth() + 1) + '/' + today.getDate() + '/' +  today.getFullYear();
+    tomorrow = (tomorrow.getMonth() + 1) + '/' + tomorrow.getDate() + '/' +  tomorrow.getFullYear();
+    
+    $('#today').attr('src', ' https://intranet2.mountsinai.org/ms_schedule/Schedule_By_Room_Main.jsp?currentmenucode=menu4&currentsubcode=sub2&ReqDate='+today);
+    $('#tomorrow').attr('src', ' https://intranet2.mountsinai.org/ms_schedule/Schedule_By_Room_Main.jsp?currentmenucode=menu4&currentsubcode=sub2&ReqDate='+tomorrow);
+    
+  </script>
 </body>
 </html>
