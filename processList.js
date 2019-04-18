@@ -332,6 +332,7 @@ function processGlucose(lines, start) {
 function processDiet(lines, start) {
   var data = {};
   var formula = false;
+  var feedcomment = null;
   for (var i = start; i < lines.length; i++) {
     if (lines[i] === '[/Diet]') {
       end = i;
