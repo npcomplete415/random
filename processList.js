@@ -164,11 +164,11 @@ function processMedications(lines, start) {
 
 function processVitals(lines, start) {
   var data = {
-    bp : '',
-    pulse : '',
-    resp : '',
-    o2 : '',
-    temp : ''
+    bp : '--',
+    pulse : '--',
+    resp : '--',
+    o2 : '--',
+    temp : '--'
   };
   var end = start;
   for (var i = start; i < lines.length; i++) {
