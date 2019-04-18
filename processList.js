@@ -395,6 +395,7 @@ function processDiet(lines, start) {
   if (feedcomment) {
     $('#output').append($('<div>' + feedcomment + '</div>'));
   }
+  return end;
 }
 
 function processIO(lines, start) {
@@ -432,6 +433,7 @@ function processIO(lines, start) {
     }
   }
   $('#output').append($('<div>' + totals.join(' | ') + '</div>'));
+  return end;
 }
 
 $('#compute').click(function (e) {
@@ -463,5 +465,6 @@ $('#compute').click(function (e) {
     }
   }
 })
+
 
 
