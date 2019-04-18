@@ -330,7 +330,6 @@ function processGlucose(lines, start) {
 }
 
 function processDiet(lines, start) {
-  var end = start;
   var data = {};
   var formula = false;
   for (var i = start; i < lines.length; i++) {
@@ -364,11 +363,18 @@ function processDiet(lines, start) {
         feedcomment = '';
         formula = true;
       }
+      if (splitted[0] === 'Select Supplement(s), if any') {
+        data.supplement = splitted[1].trim();
+      }
     } else {
-      var match = lines[i].match(/DIET(.*?)EFFECTIVE/);
+      var match = lines[i].match(/^DIET([A-Z\s]+)[^a-z]/);
       if (match) {
-        console.log(lines[i], match);
         data.diet = match[1].trim();
+        continue;
+      }
+      match = lines[i].match(/Supplement Frequency\s(.*?)Daily/);
+      if (match) {
+        data.freq = match[1].trim();
       }
     }
   }
@@ -382,7 +388,6 @@ function processDiet(lines, start) {
   if (feedcomment) {
     $('#output').append($('<div>' + feedcomment + '</div>'));
   }
-  return end;
 }
 
 function processIO(lines, start) {
@@ -451,4 +456,5 @@ $('#compute').click(function (e) {
     }
   }
 })
+
 
