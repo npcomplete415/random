@@ -163,7 +163,13 @@ function processMedications(lines, start) {
 }
 
 function processVitals(lines, start) {
-  var data = {};
+  var data = {
+    bp : '',
+    pulse : '',
+    resp : '',
+    o2 : '',
+    temp : ''
+  };
   var end = start;
   for (var i = start; i < lines.length; i++) {
     if (lines[i] === '[/Vitals]') {
