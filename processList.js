@@ -312,6 +312,78 @@ function processLabs(lines, start) {
   return end;
 }
 
+function processGlucose(lines, start) {
+  var end = start;
+  var glucose = [];
+  for (var i = start; i < lines.length; i++) {
+    if (lines[i] === '[/Glucose]') {
+      end = i;
+      break;
+    }
+    var splitted = lines[i].split(/\s+/)
+    if (parseInt(splitted[3])) {
+      glucose.push(splitted[3]);
+    }
+  }
+  $('#output').append($('<div><strong>FSG: ' + glucose.join('-') + '</strong></div>'));
+  return end;
+}
+
+function processDiet(lines, start) {
+  var end = start;
+  var data = {};
+  var formula = false;
+  for (var i = start; i < lines.length; i++) {
+    if (lines[i] === '[/Diet]') {
+      end = i;
+      break;
+    }
+    var splitted = lines[i].split(':');
+    // console.log(splitted);
+    if (formula) {
+      if (lines[i].startsWith('HRS/DAY')) {
+        feedcomment += lines[i] + ' ';
+        continue;
+      } else if (lines[i].startsWith('ML/HR')) {
+        feedcomment += lines[i] + ' ';
+        continue;
+      } else {
+        formula = false;
+      }
+    }
+
+    if (splitted.length > 1) {
+      if (splitted[0] === 'Water Flushes') {
+        var temp = splitted[1].split(/\s+/)
+        if (temp.length > 4) {
+          data.flush = temp[1] + temp[3];
+        }
+      }
+      if (splitted[0] === 'Formula Type') {
+        data.feedtype = splitted[1].trim();
+        feedcomment = '';
+        formula = true;
+      }
+    } else {
+      var match = lines[i].match(/DIET(.*?)EFFECTIVE/);
+      if (match) {
+        console.log(lines[i], match);
+        data.diet = match[1].trim();
+      }
+    }
+  }
+
+  var keys = Object.keys(data);
+  var returned = [];
+  for (var i = 0; i < keys.length; i++) {
+    returned.push(data[keys[i]])
+  }
+  $('#output').append($('<div>' + returned.join(' ') + '</div>'));
+  if (feedcomment) {
+    $('#output').append($('<div>' + feedcomment + '</div>'));
+  }
+  return end;
+}
 
 $('#compute').click(function (e) {
 
@@ -331,5 +403,12 @@ $('#compute').click(function (e) {
     if (lines[i] === '[Labs]') {
       i = processLabs(lines, i);
     }
+    if (lines[i] === '[Glucose]') {
+      i = processGlucose(lines, i);
+    }
+    if (lines[i] === '[Diet]') {
+      i = processGlucose(lines, i);
+    }
   }
 })
+
