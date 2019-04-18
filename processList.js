@@ -385,6 +385,43 @@ function processDiet(lines, start) {
   return end;
 }
 
+function processIO(lines, start) {
+  var dates = null;
+  var shifts = null;
+  var totals = [];
+  var renamps = {
+    'Urine': 'UOP',
+    'Urine Occurrence': 'Ux',
+    'Emesis Occurrence': 'Ex',
+    'Stool Occurrence': 'Sx',
+    'P.O.': 'PO'
+  }
+  for (var i = start; i < lines.length; i++) {
+    if (lines[i] === '[/IO]') {
+      end = i;
+      break;
+    }
+    var splitted = lines[i].split('\t');
+    if (splitted[0] === 'Date') {
+      dates = splitted.slice(1, splitted.length);
+    }
+    if (splitted[0] === 'Shift') {
+      shifts = splitted.slice(1, splitted.length);
+    }
+    if (splitted.length > 2 && splitted[1].startsWith('  ')) {
+      var name = splitted[1].trim();
+      name = renamps[name] ? renamps[name] : name;
+      var temp = [name];
+      console.log(dates.length)
+      for (var j = 0; j < dates.length; j++) {
+        temp.push(splitted[j * 3 + 4]);
+      }
+      totals.push(temp.join('  '));
+    }
+  }
+  $('#output').append($('<div>' + totals.join(' | ') + '</div>'));
+}
+
 $('#compute').click(function (e) {
 
   $('#output').empty();
@@ -407,7 +444,10 @@ $('#compute').click(function (e) {
       i = processGlucose(lines, i);
     }
     if (lines[i] === '[Diet]') {
-      i = processGlucose(lines, i);
+      i = processDiet(lines, i);
+    }
+    if (lines[i] === '[IO]') {
+      i = processIO(lines, i);
     }
   }
 })
