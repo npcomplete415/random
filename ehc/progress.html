@@ -1,0 +1,157 @@
+<html>
+<head>
+  <script src="./js/jquery-3.4.1.min.js"></script>
+  <link rel="stylesheet" href="./css/bootstrap.min.css"/>
+  <style>
+    textarea {
+      min-height: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form id="progress" class="row" action="">
+      <!-- the patient to be used -->
+      <!-- <div class="col-12">
+        <div class="form-group">
+          <select class="form-control" id="selPatient" name="patient">
+            <option>Select a Patient</option>
+          </select>
+        </div>
+      </div> -->
+      <div class="col-sm-12 col-lg-8">
+        <!-- identifier of the patient -->
+        <!-- <h2>Identifier</h2>
+        <div class="form-group">
+          <input type="text" class="form-control" id="pID" placeholder="identifier" name="pID"/>
+        </div> -->
+
+        <h2>Assessment</h2>
+        <!-- the assessment -->
+        <div class="form-group">
+          <input type="text" class="form-control" id="assessment" placeholder="assessment" name="assessment"/>
+        </div>
+    
+        <!-- the plan -->
+        <h2>Plan</h2>
+        <div class="form-group">
+          <textarea class="form-control" id="plan" placeholder="plan" name="plan"></textarea>
+        </div>
+        
+        <h2>Subjective</h2>
+        <!-- the list of subjectives -->
+        <div class="form-group form-check-inline">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" id="sNAEO" name="sNAEO" checked/>
+            <label class="form-check-label" for="sBM">
+              NAEO
+            </label>
+          </div> 
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" id="sNausea" name="sNausea"/>
+            <label class="form-check-label" for="sNausea">
+              N
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" id="sVomit" name="sVomit"/>
+            <label class="form-check-label" for="sVomit">
+              V
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" id="sFlatus" name="sFlatus"/>
+            <label class="form-check-label" for="sFlatus">
+              F
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" id="sBM" name="sBM"/>
+            <label class="form-check-label" for="sBM">
+              BM
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" id="sPO" name="sPO"/>
+            <label class="form-check-label" for="sPO">
+              Tolerate PO
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="true" id="sPain" name="sPain"/>
+            <label class="form-check-label" for="sPain">
+              Pain
+            </label>
+          </div>
+        </div>
+        <!-- free text subjectives -->
+        <div class="form-group">
+          <label for="sOther">Additional Subjective</label>
+          <input type="text" class="form-control" id="sOther" placeholder="subjective" name="sOther" value="No Complaints"/>
+        </div>
+        <h2>Objective</h2>
+
+        <!-- the list of objectives -->
+        <div class="row">
+          <div class="col-3">
+            <button type="button" class="btn btn-secondary col-12 oNormal">Gen Normal</button>
+          </div>
+          <div class="form-group col-9">
+            <input type="text" class="form-control" id="oGen" placeholder="general"  name="oGen"/>
+          </div>
+        </div>
+    
+        <div class="row">
+          <div class="col-3">
+            <button type="button" class="btn btn-secondary col-12 oNormal">Heart Normal</button>
+          </div>
+          <div class="form-group col-9">
+            <input type="text" class="form-control" id="oHeart" placeholder="heart" name="oHeart"/>
+          </div>
+        </div>
+    
+        <div class="row">
+          <div class="col-3">
+            <button type="button" class="btn btn-secondary col-12 oNormal">Resp Normal</button>
+          </div>
+          <div class="form-group col-9">
+            <input type="text" class="form-control" id="oResp" placeholder="respiratory" name="oResp"/>
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="col-3">
+            <button type="button" class="btn btn-secondary col-12 oNormal">Abd Normal</button>
+          </div>
+          <div class="form-group col-9">
+            <input type="text" class="form-control" id="oAbd" placeholder="abdominal" name="oAbd"/>
+          </div>
+        </div>
+      
+        <div class="row">
+          <div class="col-3">
+            <button type="button" class="btn btn-secondary col-12 oNormal">Ext Normal</button>
+          </div>
+          <div class="form-group col-9">
+            <input type="text" class="form-control" id="oExt" placeholder="extremity" name="oExt"/>
+          </div>
+        </div>
+
+        <h2>Data</h2>
+        <!-- old data from epic -->
+        <div class="form-group">
+          <textarea class="form-control" id="data" placeholder="data" name="data"></textarea>
+        </div>
+      </div>
+      <div class="col-sm-12 col-lg-4">
+        <div class="row">
+          <h2 class="col-6">Note</h2>
+          <button type="submit" class="btn btn-primary col-6">Update</button>    
+        </div>
+        <p id="output"></p>
+      </div>
+    </form>
+  </div>
+  <script src="./js/test.js"></script>
+</body>
+</html>
