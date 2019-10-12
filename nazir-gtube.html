@@ -1,26 +1,137 @@
 <html>
 
 <head>
-<script>
-/*
-=EXP(-6.18+A1*E1+A2*E2+A3*E3+A4*E4+A5*E5+A6*E6+A7*E7+A8*E8+A9*E9)
+  <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+    integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+  <script>
+    /*
+    =EXP(-6.18+A1*E1+A2*E2+A3*E3+A4*E4+A5*E5+A6*E6+A7*E7+A8*E8+A9*E9)
+    
+    =G11/(1+G11)
+    
+    0.04	AGE		
+    -0.05	BMI		
+    0.6	ALBUMIN		
+    1.35	DEMENTIA		0, 1
+    0.23	STAGE		1, 2, 3
+    
+    
+    0.98	SITE	lips, buccal mucosa	0, 1
+    0.74		anterior tongue, base of tongue, soft palate	0, 1
+    0.86		larynx, hypopharynx	0, 1
+    0.71		paranasal sinus, nasal cavity, maxilla, hard palate	0, 1
+    */
 
-=G11/(1+G11)
+    function process() {
+      var x = -6.18;
+      var age = $('#age').val();
+      x += parseFloat(age) * 0.04;
+      
+      var bmi = $('#bmi').val();
+      x += parseFloat(bmi) * -0.05;
 
-0.04	AGE		
--0.05	BMI		
-0.6	ALBUMIN		
-1.35	DEMENTIA		0, 1
-0.23	STAGE		1, 2, 3
+      var albumin = $('#albumin').val();
+      x += parseFloat(albumin) * 0.6;
 
+      var dementia = $('#dementia').is(':checked');
+      if (dementia) {
+        x += 1.35;
+      }
 
-0.98	SITE	lips, buccal mucosa	0, 1
-0.74		anterior tongue, base of tongue, soft palate	0, 1
-0.86		larynx, hypopharynx	0, 1
-0.71		paranasal sinus, nasal cavity, maxilla, hard palate	0, 1
-*/
-</script>
+      var stage = $('#stage').val();
+      x += parseInt(stage) * 0.23;
+
+      var site = $('#site').val();
+      x += parseFloat(site);
+
+      x = Math.exp(x);
+
+      x = x / (1 + x);
+
+      x = Math.round(x * 1000) / 10;
+
+      $('#result').text('Predictive Probability: '+ x+'%');
+    }
+
+  </script>
+  <style>
+    td {
+      text-align: center;
+    }
+
+    td.heading {
+      text-align: right;
+      width: 150px;
+    }
+
+    td.input {
+      text-align: left;
+      width: 200px;
+    }
+
+    input.input {
+      width: 100%;
+    }
+
+    select.input {
+      width: 100%;
+    }
+
+  </style>
 </head>
 
+<body>
+  <table>
+    <tr>
+      <td colspan="2">
+        <strong>Free Flap Post-Operative G-Tube Probability</strong>
+      </td>
+    </tr>
+    <tr>
+      <td class="heading">Age</td>
+      <td class="input"><input type="number" placeholder="age" class="input" id="age"></td>
+    </tr>
+    <tr>
+      <td class="heading">BMI</td>
+      <td class="input"><input type="number" placeholder="bmi" class="input" id="bmi"></td>
+    </tr>
+    <tr>
+      <td class="heading">Albumin</td>
+      <td class="input"><input type="number" placeholder="albumin" class="input" id="albumin"></td>
+    </tr>
+    <tr>
+      <td class="heading">Does the patient have dementia?</td>
+      <td class="input"><input type="checkbox" id="dementia" value="1"></td>
+    </tr>
+    <tr>
+      <td class="heading">Stage</td>
+      <td class="input"><select id="stage" class="input">
+          <option value="" selected>Select a Stage</option>
+          <option value="1">Stage 1</option>
+          <option value="2">Stage 2</option>
+          <option value="3">Stage 3</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td class="heading">Site</td>
+      <td class="input"><select id="site" class="input">
+          <option value="" selected>Select a Site</option>
+          <option value="0.98">Lips, Buccal Mucosa</option>
+          <option value="0.74">Anterior Tongue, Base of Tongue, Soft Palate</option>
+          <option value="0.86">Larynx, Hypopharynx</option>
+          <option value="0.71">Paranasal Sinus, Nasal Cavity, Maxilla, Hard Palate</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td colspan="2" ><button onclick="process();">Compute</button></td>
+    </tr>
+    <tr>
+      <td colspan="2" id="result">
+
+      </td>
+    </tr>
+  </table>
+
+</body>
 
 </html>
